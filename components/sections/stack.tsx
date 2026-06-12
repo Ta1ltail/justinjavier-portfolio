@@ -17,12 +17,20 @@ export function Stack() {
       : stackItems.filter((i) => i.category === filter);
 
   return (
-    <section className="relative mx-auto max-w-5xl px-6 pt-14 pb-10 md:px-12 md:pt-20 md:pb-12">
+    <section
+      id="stack"
+      className="relative mx-auto max-w-5xl px-6 pt-14 pb-10 md:px-12 md:pt-20 md:pb-12"
+    >
       <SectionHeading
         index="08"
         kicker="Tech Stack"
         lines={["Tools chosen", "with intent."]}
       />
+
+      <p className="-mt-2 mb-10 max-w-2xl text-sm text-muted-foreground">
+        Every tool below is something I&apos;ve personally worked with across
+        coursework, freelance projects, and personal builds.
+      </p>
 
       <div
         className="mb-10 flex flex-wrap gap-2"

@@ -4,19 +4,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  ArrowUpRight,
-  Check,
-  Clock,
-  Copy,
-  Loader2,
-  Mail,
-  MessageSquare,
-  Send,
-} from "lucide-react";
+import { ArrowUpRight, Check, Clock, Loader2, Mail, Send } from "lucide-react";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { FadeIn } from "@/components/ui/fade-in";
-import { GithubIcon, LinkedinIcon } from "@/components/ui/brand-icons";
+import {
+  GithubIcon,
+  LinkedinIcon,
+  InstagramIcon,
+} from "@/components/ui/brand-icons";
 import { contactSchema, type ContactInput } from "@/lib/validations";
 import { site } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -30,7 +25,6 @@ const labelClass = "mb-2 block text-sm font-medium";
 
 export function Contact() {
   const [status, setStatus] = useState<Status>("idle");
-  const [copied, setCopied] = useState(false);
 
   const {
     register,
@@ -58,12 +52,6 @@ export function Contact() {
     }
   };
 
-  const copyDiscord = async () => {
-    await navigator.clipboard.writeText(site.links.discord);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   const channels = [
     {
       label: "Email",
@@ -82,6 +70,12 @@ export function Contact() {
       value: "Connect with me",
       href: site.links.linkedin,
       icon: <LinkedinIcon className="size-4" />,
+    },
+    {
+      label: "Instagram",
+      value: "Follow my work",
+      href: site.links.instagram,
+      icon: <InstagramIcon className="size-4" />,
     },
   ];
 
@@ -148,27 +142,6 @@ export function Contact() {
                   <ArrowUpRight className="size-4 text-muted-foreground opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100" />
                 </a>
               ))}
-
-              <button
-                type="button"
-                onClick={copyDiscord}
-                className="group flex items-center gap-4 rounded-xl border border-transparent p-3 text-left transition-colors hover:border-border hover:bg-background"
-              >
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-muted-foreground transition-colors group-hover:border-accent/40 group-hover:text-accent">
-                  <MessageSquare className="size-4" />
-                </span>
-                <span className="flex-1">
-                  <span className="block text-sm font-medium">Discord</span>
-                  <span className="block text-xs text-muted-foreground">
-                    {copied ? "Copied to clipboard!" : site.links.discord}
-                  </span>
-                </span>
-                {copied ? (
-                  <Check className="size-4 text-accent" />
-                ) : (
-                  <Copy className="size-4 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100" />
-                )}
-              </button>
             </nav>
           </div>
 
