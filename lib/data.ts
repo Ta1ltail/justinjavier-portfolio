@@ -291,6 +291,11 @@ export const projects: Project[] = [
   {
     slug: "syntaxmasters",
     image: "/projects/syntaxmasters.png",
+    images: [
+      "/projects/syntaxmasters-2.png",
+      "/projects/syntaxmasters-3.png",
+      "/projects/syntaxmasters-4.png",
+    ],  
     title: "SyntaxMasters",
     year: "2023",
     tagline: "Java desktop game · NetBeans",
