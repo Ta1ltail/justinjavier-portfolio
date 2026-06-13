@@ -173,7 +173,7 @@ export const skillCategories: SkillCategory[] = [
 export const projects: Project[] = [
   {
     slug: "movieapp",
-    image: "/projects/movieapp-thumb.png",
+    image: "/projects/movieapp-thumb.PNG",
     images: [
       "/projects/movieapp-thumb.png",
       "/projects/movieapp.png",
@@ -204,7 +204,7 @@ export const projects: Project[] = [
   },
   {
     slug: "tradihomes",
-    image: "/projects/tradihomes-thumb.png",
+    image: "/projects/tradihomes-thumb.PNG",
     images: [
       "/projects/tradihomes-thumb.png",
       "/projects/tradihomes.png",
