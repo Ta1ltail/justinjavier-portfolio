@@ -173,7 +173,7 @@ export const skillCategories: SkillCategory[] = [
 export const projects: Project[] = [
   {
     slug: "movieapp",
-    image: "/projects/movieapp-thumb.PNG",
+    image: "/projects/movieapp-thumb.png",
     images: [
       "/projects/movieapp-thumb.png",
       "/projects/movieapp.png",
@@ -204,7 +204,7 @@ export const projects: Project[] = [
   },
   {
     slug: "tradihomes",
-    image: "/projects/tradihomes-thumb.PNG",
+    image: "/projects/tradihomes-thumb.png",
     images: [
       "/projects/tradihomes-thumb.png",
       "/projects/tradihomes.png",
@@ -326,7 +326,7 @@ export const showcaseModels: ShowcaseModel[] = [
   {
     key: "kurbs",
     name: "Kurbs",
-    description: "3D character for built ani-film.",
+    description: "3D character built for ani-film.",
     polyNote: "~16K tris · Rigged",
   },
   {
