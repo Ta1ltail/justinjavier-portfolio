@@ -214,7 +214,7 @@ export function Contact() {
               <textarea
                 id="message"
                 rows={7}
-                placeholder="Tell me about your project, timeline, and goals…"
+                placeholder="Tell me your-message..."
                 aria-invalid={!!errors.message}
                 className={cn(
                   inputClass,

@@ -32,7 +32,7 @@ export interface Project {
   restrictedNote?: string;
 }
 
-export type ModelKey = "knot" | "gem" | "column";
+export type ModelKey = "kurbs" | "switch" | "basketball";
 
 export interface ShowcaseModel {
   key: ModelKey;
@@ -315,24 +315,25 @@ export const projects: Project[] = [
 
 export const showcaseModels: ShowcaseModel[] = [
   {
-    key: "knot",
-    name: "Knot Study",
-    description: "Topology exercise in continuous curvature and clean edge flow.",
-    polyNote: "Procedural · 4.6k tris",
+    key: "kurbs",
+    name: "Kurbs",
+    description: "Custom model handcrafted in Blender.",
+    polyNote: "Imported · GLB",
   },
   {
-    key: "gem",
-    name: "Gem Study",
-    description: "Faceted form exploring how flat shading reads under hard light.",
-    polyNote: "Procedural · 320 tris",
+    key: "switch",
+    name: "Switch",
+    description: "Custom model handcrafted in Blender.",
+    polyNote: "Imported · GLB",
   },
   {
-    key: "column",
-    name: "Column Study",
-    description: "Capsule primitive pushed toward architectural proportion.",
-    polyNote: "Procedural · 2.1k tris",
+    key: "basketball",
+    name: "Basketball",
+    description: "Custom model handcrafted in Blender.",
+    polyNote: "Imported · GLB",
   },
 ];
+
 
 export const games: Game[] = [
   {
