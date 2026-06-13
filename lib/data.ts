@@ -92,20 +92,21 @@ export const stackCategories: StackCategory[] = [
 export const chapters: Chapter[] = [
   {
     index: "01",
-    title: "Code",
-    body: "I started learning programming by building things and figuring out how they worked behind the scenes. What began as curiosity eventually turned into a passion for full-stack development. I enjoy understanding how every part of a system connects from the user interface to the backend, database, and deployment infrastructure.",
+    title: "Development",
+    body: "My path into software began with a simple drive to understand how things work beneath the surface. That curiosity matured into a focused discipline for full-stack development. I care about the entire lifecycle of a product, how the interface, application logic, data layer, and deployment pipeline come together into a system that is reliable, maintainable, and genuinely pleasant to use.",
   },
   {
     index: "02",
-    title: "Leadership & Projects",
-    body: "One of the most valuable experiences in my journey was leading a team during our capstone project, where we developed a real information system for an actual organization. Working on a project that people genuinely relied on taught me how to communicate effectively, solve problems collaboratively, and take responsibility for delivering a reliable product.",
+    title: "Collaboration & Ownership",
+    body: "Led the development of a real information system for an organization during my capstone shaped how I approach development as a team effort. Building software that people depend on taught me to communicate with clarity, navigate trade-offs collaboratively, and take full ownership of delivery, from first requirement to a stable, production-ready release.",
   },
   {
     index: "03",
-    title: "Design & Creativity",
-    body: "Beyond software development, I enjoy working with 3D design and interactive experiences. Using Blender introduced me to concepts like composition, proportion, lighting, and attention to detail. These skills influence how I approach user interfaces and web experiences, while technologies like Three.js allow me to combine creativity and development into immersive digital products.",
+    title: "Design & Craft",
+    body: "Alongside development, I work extensively in 3D and interactive media. Tools like Blender sharpened my eye for composition, proportion, lighting, and detail, principles that carry directly into the interfaces I build. With technologies such as Three.js, I bridge design and engineering to create immersive, performant experiences that feel as considered as they are technical.",
   },
 ];
+
 
 export const aboutStats = [
   { value: "10+", label: "Projects Built" },
@@ -317,117 +318,118 @@ export const showcaseModels: ShowcaseModel[] = [
   {
     key: "kurbs",
     name: "Kurbs",
-    description: "Custom model handcrafted in Blender.",
-    polyNote: "Imported · GLB",
+    description: "3D character for built ani-film.",
+    polyNote: "~16K tris · Rigged",
   },
   {
     key: "switch",
     name: "Switch",
-    description: "Custom model handcrafted in Blender.",
-    polyNote: "Imported · GLB",
+    description: "Nintendo Switch replica created for a client's business advertisement.",
+    polyNote: "~37 tris · Client Work",
   },
   {
     key: "basketball",
     name: "Basketball",
-    description: "Custom model handcrafted in Blender.",
-    polyNote: "Imported · GLB",
+    description: "Spalding NBA basketball built for game cinematics.",
+    polyNote: "~25K tris · Game Asset",
   },
 ];
-
 
 export const games: Game[] = [
   {
     slug: "home-again",
     title: "Home Again",
     engine: "Unity · C#",
-    status: "Playable build",
+    status: "Playable Build",
     description:
-      "A 3D first-person adventure horror game built around atmosphere and storytelling. Every system from the cinematic sequences to the combat serves the narrative first.",
+      "A first-person adventure horror experience driven by atmosphere and narrative. Every system, from cinematic sequencing to combat, is designed in service of the story, prioritizing tension, pacing, and immersion over spectacle.",
     mechanics: [
-      "First-person movement with stamina system",
-      "Melee combat with hit detection",
-      "Scripted jumpscares tied to story beats",
-      "Cinematic cutscene sequences",
+      "First-person movement with a stamina-based pacing system",
+      "Responsive melee combat with precise hit detection",
+      "Scripted scare sequences synchronized to narrative beats",
+      "Cinematic, fully directed cutscene sequences",
     ],
     systems: [
-      "FPS character controller",
-      "Story progression system",
-      "Universal Render Pipeline setup",
-      "Trigger-based event system",
+      "Custom first-person character controller",
+      "Story progression and event-state system",
+      "Universal Render Pipeline (URP) configuration",
+      "Trigger-driven scripting framework",
     ],
     process: [
-      "Laid out the story beats before building any level geometry",
-      "Sourced and integrated free assets, optimized for URP",
-      "Iterated on scare timing through repeated playtests",
+      "Structured the full narrative arc before authoring any level geometry",
+      "Curated and optimized assets for consistent URP performance",
+      "Refined scare timing through repeated, structured playtesting",
     ],
-    videoSrc: "/games/home-again.mp4",  
+    videoSrc: "/games/home-again.mp4",
   },
   {
     slug: "unnamed-horror",
     title: "Untitled Horror Sim",
     engine: "Godot · Blender",
-    status: "In progress",
+    status: "In Development",
     description:
-      "A first-person simulation horror game with a focus on tension through systems every item you carry, every room you enter, and every decision you make feeds into a world that feels like it has rules, until it doesn't.",
+      "A systems-driven first-person horror simulation where tension emerges from mechanics rather than scripting. Every item carried, room entered, and decision made feeds a world that feels governed by consistent rules, until those rules begin to break.",
     mechanics: [
-      "Inventory system with item interactions",
-      "Explorable map with discoverable zones",
-      "Narrative-driven progression",
-      "Atmosphere-first horror pacing",
+      "Inventory system with contextual item interactions",
+      "Explorable environment with discoverable zones",
+      "Narrative progression woven into core gameplay",
+      "Atmosphere-first pacing built on sustained tension",
     ],
     systems: [
-      "Custom inventory and item framework",
-      "Map and zone management system",
-      "Original 3D assets modeled in Blender",
-      "Story state machine for branching events",
+      "Custom inventory and item-management framework",
+      "Modular map and zone-streaming system",
+      "Original 3D assets authored entirely in Blender",
+      "State-machine architecture for branching events",
     ],
     process: [
-      "Designing all 3D assets from scratch in Blender for full creative control",
-      "Building the inventory and map systems before locking the story",
-      "Playtesting tension pacing early to avoid scripted-feeling scares",
+      "Authoring all 3D assets from scratch in Blender for complete creative control",
+      "Establishing core inventory and world systems before finalizing narrative",
+      "Validating tension pacing early to avoid predictable, scripted scares",
     ],
     videoSrc: "/games/game-2.mp4",
   },
 ];
 
+
 export const timeline: TimelineEntry[] = [
   {
     year: "2020",
     type: "Education",
-    title: "Started programming",
-    body: "Wrote my first lines of HTML, CSS, and JavaScript, building simple static pages and slowly learning how the web actually works under the hood.",
+    title: "First Steps into Programming",
+    body: "Wrote my first lines of HTML, CSS, and JavaScript, building static pages and developing an early, practical understanding of how the web works beneath the surface.",
   },
   {
     year: "2021",
     type: "Project",
-    title: "First game from scratch",
-    body: "Started building a small game from the ground up, getting hands-on with game loops, basic mechanics, and the early steps of systems thinking.",
+    title: "First Game Built from Scratch",
+    body: "Developed a small game from the ground up, gaining hands-on experience with game loops, core mechanics, and the fundamentals of systems-level thinking.",
   },
   {
     year: "2023",
     type: "Education",
-    title: "Started BSIT at Cavite State University",
-    body: "Began my freshman year as a BSIT student at Cavite State University, while also taking on freelance work as a 3D modeler.",
+    title: "Began BSIT at Cavite State University",
+    body: "Started my Bachelor of Science in Information Technology at Cavite State University while taking on freelance work as a 3D modeler, balancing formal study with applied creative practice.",
   },
   {
     year: "2024",
     type: "Project",
-    title: "Built first web applications",
-    body: "Developed web applications and strengthened the fundamentals through coursework, applying what I learned in school directly to real projects.",
+    title: "First Production Web Applications",
+    body: "Built complete web applications and reinforced core engineering fundamentals through coursework, translating academic concepts directly into working, real-world projects.",
   },
   {
     year: "2025",
     type: "Achievement",
-    title: "Modern stack and capstone project",
-    body: "Adopted modern frameworks like Next.js and TypeScript, taking on more complex builds and shipping a full-scale capstone project.",
+    title: "Modern Stack & Capstone Delivery",
+    body: "Adopted a modern engineering stack centered on Next.js and TypeScript, took on increasingly complex builds, and led the delivery of a full-scale capstone information system.",
   },
   {
     year: "2026",
     type: "Education",
-    title: "Continuous growth",
-    body: "Still learning, still building — exploring new tools and deepening skills across full stack development, 3D, and game development.",
+    title: "Continuous Growth",
+    body: "Continually learning and building, deepening expertise across full-stack engineering, 3D, and game development while exploring new tools and techniques.",
   },
 ];
+
 
 export const stackItems: StackItem[] = [
   { name: "React", detail: "UI architecture", category: "Frontend" },

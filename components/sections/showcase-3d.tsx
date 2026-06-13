@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useInView } from "framer-motion";
 import {
   RotateCw,
@@ -16,7 +16,11 @@ import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { FadeIn } from "@/components/ui/fade-in";
 import { showcaseModels } from "@/lib/data";
-import { useViewerStore, type MaterialMode } from "@/stores/use-viewer-store";
+import {
+  useViewerStore,
+  DEFAULT_VIEWS,
+  type MaterialMode,
+} from "@/stores/use-viewer-store";
 import { cn } from "@/lib/utils";
 
 const ShowcaseScene = dynamic(
@@ -42,9 +46,12 @@ const modes: { key: MaterialMode; label: string }[] = [
 
 export function Showcase3D() {
   const sectionRef = useRef<HTMLElement>(null);
-  const inView = useInView(sectionRef, { margin: "200px 0px", once: true });
+  const viewportRef = useRef<HTMLDivElement>(null);
   const controlsRef = useRef<OrbitControlsImpl | null>(null);
+  const inView = useInView(sectionRef, { margin: "200px 0px", once: true });
+
   const [hovered, setHovered] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   const model = useViewerStore((s) => s.model);
   const mode = useViewerStore((s) => s.mode);
@@ -54,8 +61,23 @@ export function Showcase3D() {
   const setMode = useViewerStore((s) => s.setMode);
   const toggleAutoRotate = useViewerStore((s) => s.toggleAutoRotate);
   const setActive = useViewerStore((s) => s.setActive);
+  const resetView = useViewerStore((s) => s.resetView);
 
-  // Pan the camera target via OrbitControls
+  // Deactivate the viewport when clicking outside of it
+  useEffect(() => {
+    if (!active) return;
+    const handlePointerDown = (e: PointerEvent) => {
+      if (
+        viewportRef.current &&
+        !viewportRef.current.contains(e.target as Node)
+      ) {
+        setActive(false);
+      }
+    };
+    window.addEventListener("pointerdown", handlePointerDown);
+    return () => window.removeEventListener("pointerdown", handlePointerDown);
+  }, [active, setActive]);
+
   const nudge = (dx: number, dy: number) => {
     const c = controlsRef.current;
     if (!c) return;
@@ -67,10 +89,12 @@ export function Showcase3D() {
   };
 
   const reset = () => {
+    resetView(model);
     const c = controlsRef.current;
     if (!c) return;
-    c.target.set(0, 0, 0);
-    c.object.position.set(0, 0.6, 5);
+    const v = DEFAULT_VIEWS[model];
+    c.object.position.set(...v.position);
+    c.target.set(...v.target);
     c.update();
   };
 
@@ -131,24 +155,27 @@ export function Showcase3D() {
 
           {/* Viewport */}
           <div
+            ref={viewportRef}
             className={cn(
               "relative aspect-square overflow-hidden bg-background transition-all sm:aspect-16/10",
               active && "ring-2 ring-inset ring-accent/40",
             )}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            onClick={() => setActive(true)}
+            onClick={() => {
+              setActive(true);
+              setHasInteracted(true);
+            }}
             onWheel={(e) => {
               if (active) e.stopPropagation();
             }}
           >
-            {/* Canvas fills the box; controls sit on top via z-10 */}
             <div className="absolute inset-0">
               {inView && <ShowcaseScene controlsRef={controlsRef} />}
             </div>
 
-            {/* Hover hint (before activation) */}
-            {hovered && !active && (
+            {/* Hover hint — only before first interaction */}
+            {hovered && !active && !hasInteracted && (
               <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-background/30 backdrop-blur-[1px]">
                 <span className="rounded-full border border-border bg-background/90 px-4 py-2 font-mono text-xs">
                   Click to interact
@@ -156,7 +183,7 @@ export function Showcase3D() {
               </div>
             )}
 
-            {/* Directional pad + reset (top-right, inside canvas) */}
+            {/* Directional pad + reset */}
             <div className="absolute right-4 top-4 z-10 flex flex-col items-center gap-1.5">
               <button
                 type="button"
@@ -202,7 +229,7 @@ export function Showcase3D() {
               </button>
             </div>
 
-            {/* Bottom bar: modes + auto-rotate (inside canvas) */}
+            {/* Bottom bar */}
             <div className="absolute inset-x-0 bottom-0 z-10 flex items-center justify-between p-4">
               <div className="flex rounded-full border border-border bg-background/80 p-1 backdrop-blur-md">
                 {modes.map((m) => (

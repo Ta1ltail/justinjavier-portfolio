@@ -8,8 +8,6 @@ export type CameraView = {
   target: [number, number, number];
 };
 
-// Per-model default camera framing
-// kurbs: slightly zoomed in · switch: zoomed out a bit · basketball: zoomed in more
 export const DEFAULT_VIEWS: Record<ModelKey, CameraView> = {
   kurbs: { position: [0, 0.4, 4.2], target: [0, 0, 0] },
   switch: { position: [0, 0.5, 6.5], target: [0, 0, 0] },
