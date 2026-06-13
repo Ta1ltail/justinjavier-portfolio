@@ -19,7 +19,6 @@ interface ViewerState {
   mode: MaterialMode;
   autoRotate: boolean;
   active: boolean;
-  // Saved camera view per model
   views: Record<ModelKey, CameraView>;
   setModel: (model: ModelKey) => void;
   setMode: (mode: MaterialMode) => void;

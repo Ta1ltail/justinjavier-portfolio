@@ -29,7 +29,6 @@ export function Header() {
   };
   const [activeSection, setActiveSection] = useState<string>("");
 
-  // Smooth-scroll to a section without putting the hash in the URL
   const scrollToSection = (e: React.MouseEvent, href: string) => {
     e.preventDefault();
     const id = href.replace("#", "");
@@ -38,7 +37,6 @@ export function Header() {
     } else {
       document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     }
-    // Remove the "#about" etc. that the browser would otherwise add
     history.replaceState(null, "", window.location.pathname);
   };
 

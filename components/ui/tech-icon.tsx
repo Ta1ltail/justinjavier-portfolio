@@ -41,7 +41,7 @@ import { cn } from "@/lib/utils";
 
 interface IconEntry {
   Icon: ComponentType<{ className?: string; style?: React.CSSProperties }>;
-  color?: string; // official brand color; undefined = follow theme
+  color?: string;
 }
 
 const icons: Record<string, IconEntry> = {

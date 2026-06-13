@@ -63,7 +63,6 @@ export function Showcase3D() {
   const setActive = useViewerStore((s) => s.setActive);
   const resetView = useViewerStore((s) => s.resetView);
 
-  // Deactivate the viewport when clicking outside of it
   useEffect(() => {
     if (!active) return;
     const handlePointerDown = (e: PointerEvent) => {
@@ -117,7 +116,6 @@ export function Showcase3D() {
 
       <FadeIn>
         <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border lg:grid-cols-[280px_1fr]">
-          {/* Model list */}
           <div className="flex flex-col bg-surface">
             {showcaseModels.map((m) => (
               <button
@@ -153,7 +151,6 @@ export function Showcase3D() {
             </p>
           </div>
 
-          {/* Viewport */}
           <div
             ref={viewportRef}
             className={cn(
@@ -174,7 +171,6 @@ export function Showcase3D() {
               {inView && <ShowcaseScene controlsRef={controlsRef} />}
             </div>
 
-            {/* Hover hint — only before first interaction */}
             {hovered && !active && !hasInteracted && (
               <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-background/30 backdrop-blur-[1px]">
                 <span className="rounded-full border border-border bg-background/90 px-4 py-2 font-mono text-xs">
@@ -183,7 +179,6 @@ export function Showcase3D() {
               </div>
             )}
 
-            {/* Directional pad + reset */}
             <div className="absolute right-4 top-4 z-10 flex flex-col items-center gap-1.5">
               <button
                 type="button"
@@ -229,7 +224,6 @@ export function Showcase3D() {
               </button>
             </div>
 
-            {/* Bottom bar */}
             <div className="absolute inset-x-0 bottom-0 z-10 flex items-center justify-between p-4">
               <div className="flex rounded-full border border-border bg-background/80 p-1 backdrop-blur-md">
                 {modes.map((m) => (

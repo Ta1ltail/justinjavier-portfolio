@@ -92,7 +92,6 @@ export function Contact() {
 
       <FadeIn>
         <div className="grid grid-cols-1 overflow-hidden rounded-3xl border border-border lg:grid-cols-[2fr_3fr]">
-          {/* Left: pitch + channels */}
           <div className="flex flex-col gap-8 border-b border-border bg-surface p-8 lg:border-b-0 lg:border-r md:p-10">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent-soft px-3 py-1 text-xs font-medium text-accent">
@@ -145,7 +144,6 @@ export function Contact() {
             </nav>
           </div>
 
-          {/* Right: form */}
           <form
             onSubmit={handleSubmit(onSubmit)}
             noValidate

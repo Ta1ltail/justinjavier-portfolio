@@ -6,6 +6,10 @@ export function setLenis(instance: Lenis | null): void {
   lenis = instance;
 }
 
+export function getLenis(): Lenis | null {
+  return lenis;
+}
+
 export function scrollTo(target: string | number): void {
   if (lenis) {
     lenis.scrollTo(target, { offset: -88, duration: 1.4 });

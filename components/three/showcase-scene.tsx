@@ -89,7 +89,6 @@ function Loader() {
   );
 }
 
-// Restores each model's saved camera view on switch, and saves it back on change
 function CameraController({
   controlsRef,
 }: {
@@ -101,7 +100,6 @@ function CameraController({
   const saveView = useViewerStore((s) => s.saveView);
   const prevModel = useRef<ModelKey | null>(null);
 
-  // On model switch: save the outgoing model's view, then load the new one's
   useEffect(() => {
     const controls = controlsRef.current;
     if (!controls) return;
@@ -118,7 +116,6 @@ function CameraController({
     controls.target.set(...v.target);
     controls.update();
     prevModel.current = model;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model]);
 
   return null;

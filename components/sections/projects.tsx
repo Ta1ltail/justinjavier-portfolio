@@ -1,5 +1,22 @@
 "use client";
 
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { ArrowUpRight, Lock } from "lucide-react";
+import {
+  AnimatePresence,
+  motion,
+  useScroll,
+  useTransform,
+  useReducedMotion,
+} from "framer-motion";
+import Image from "next/image";
+import { SectionHeading } from "@/components/ui/section-heading";
+import { FadeIn } from "@/components/ui/fade-in";
+import { projects, type Project } from "@/lib/data";
+import { getLenis } from "@/lib/scroll";
+import { cn } from "@/lib/utils";
+
 function GithubIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -13,19 +30,6 @@ function GithubIcon({ className }: { className?: string }) {
     </svg>
   );
 }
-
-import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight, Lock } from "lucide-react";
-import {
-  AnimatePresence,
-  motion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
-import { SectionHeading } from "@/components/ui/section-heading";
-import { FadeIn } from "@/components/ui/fade-in";
-import { projects, type Project } from "@/lib/data";
-import { cn } from "@/lib/utils";
 
 const accentMap = {
   blue: "from-accent/25",
@@ -48,7 +52,10 @@ function Lightbox({
   const images = getImages(project);
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const hasMultiple = images.length > 1;
+
+  useEffect(() => setMounted(true), []);
 
   const goNext = () => {
     setDirection(1);
@@ -59,7 +66,6 @@ function Lightbox({
     setIndex((i) => (i - 1 + images.length) % images.length);
   };
 
-  // Keyboard: Escape closes, arrows navigate. Lock body scroll while open...
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -73,13 +79,19 @@ function Lightbox({
       }
     };
     window.addEventListener("keydown", onKey);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
-    };
+    return () => window.removeEventListener("keydown", onKey);
   }, [onClose, hasMultiple, images.length]);
+
+  useLayoutEffect(() => {
+    const lenis = getLenis();
+    lenis?.stop();
+    document.body.classList.add("lightbox-open");
+
+    return () => {
+      document.body.classList.remove("lightbox-open");
+      lenis?.start();
+    };
+  }, []);
 
   const variants = {
     enter: (dir: number) => ({ opacity: 0, x: dir * 40 }),
@@ -87,24 +99,25 @@ function Lightbox({
     exit: (dir: number) => ({ opacity: 0, x: dir * -40 }),
   };
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm md:p-8"
+      className="fixed inset-0 z-100 flex items-center justify-center overscroll-contain bg-black/80 p-4 backdrop-blur-sm md:p-8"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-label={`${project.title} image gallery`}
     >
-      {/* Close button */}
       <button
         type="button"
         onClick={onClose}
         aria-label="Close image preview"
-        className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white transition-colors hover:bg-white/10 md:right-6 md:top-6"
+        className="absolute right-4 top-4 z-20 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white transition-colors hover:bg-white/10 md:right-6 md:top-6"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -127,11 +140,10 @@ function Lightbox({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 12 }}
         transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-        className="relative max-h-full w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-surface"
+        className="relative flex max-h-full w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-surface"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Image area */}
-        <div className="relative flex max-h-[75vh] min-h-[40vh] items-center justify-center overflow-hidden bg-black/40">
+        <div className="relative flex h-[70vh] shrink-0 items-center justify-center overflow-hidden bg-black/40">
           <AnimatePresence mode="wait" custom={direction} initial={false}>
             <motion.img
               key={index}
@@ -143,18 +155,17 @@ function Lightbox({
               transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
               src={images[index]}
               alt={`${project.title} — screenshot ${index + 1} of ${images.length}`}
-              className="max-h-[75vh] w-full object-contain"
+              className="absolute inset-0 m-auto max-h-full max-w-full object-contain"
             />
           </AnimatePresence>
 
           {hasMultiple && (
             <>
-              {/* Prev */}
               <button
                 type="button"
                 onClick={goPrev}
                 aria-label="Previous image"
-                className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-white/10 md:left-4 md:h-11 md:w-11"
+                className="absolute left-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-white/10 md:left-4 md:h-11 md:w-11"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -171,12 +182,11 @@ function Lightbox({
                 </svg>
               </button>
 
-              {/* Next */}
               <button
                 type="button"
                 onClick={goNext}
                 aria-label="Next image"
-                className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-white/10 md:right-4 md:h-11 md:w-11"
+                className="absolute right-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white backdrop-blur-sm transition-colors hover:bg-white/10 md:right-4 md:h-11 md:w-11"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -193,37 +203,42 @@ function Lightbox({
                 </svg>
               </button>
 
-              {/* Counter */}
-              <span className="absolute right-3 top-3 rounded-full border border-white/20 bg-black/60 px-3 py-1 font-mono text-xs text-white backdrop-blur-sm">
+              <span className="absolute right-3 top-3 z-10 rounded-full border border-white/20 bg-black/60 px-3 py-1 font-mono text-xs text-white backdrop-blur-sm">
                 {index + 1} / {images.length}
               </span>
-
-              {/* Dot indicators */}
-              <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-2">
-                {images.map((src, i) => (
-                  <button
-                    key={src}
-                    type="button"
-                    onClick={() => {
-                      setDirection(i > index ? 1 : -1);
-                      setIndex(i);
-                    }}
-                    aria-label={`Go to image ${i + 1}`}
-                    className={cn(
-                      "h-2 w-2 rounded-full transition-all",
-                      i === index
-                        ? "w-5 bg-white"
-                        : "bg-white/40 hover:bg-white/70",
-                    )}
-                  />
-                ))}
-              </div>
             </>
           )}
         </div>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between border-t border-white/10 px-5 py-3">
+        {hasMultiple && (
+          <div
+            data-lenis-prevent
+            className="flex shrink-0 gap-2 overflow-x-auto border-t border-white/10 bg-black/30 p-3"
+          >
+            {images.map((src, i) => (
+              <button
+                key={src}
+                type="button"
+                onClick={() => {
+                  setDirection(i > index ? 1 : -1);
+                  setIndex(i);
+                }}
+                aria-label={`View image ${i + 1}`}
+                aria-current={i === index}
+                className={cn(
+                  "relative h-14 w-20 shrink-0 overflow-hidden rounded-md border transition",
+                  i === index
+                    ? "border-accent opacity-100 ring-2 ring-accent/40"
+                    : "border-white/15 opacity-50 hover:opacity-100",
+                )}
+              >
+                <img src={src} alt="" className="h-full w-full object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
+
+        <div className="flex shrink-0 items-center justify-between border-t border-white/10 px-5 py-3">
           <span className="font-mono text-xs text-muted-foreground">
             {project.slug}
           </span>
@@ -232,18 +247,25 @@ function Lightbox({
           </span>
         </div>
       </motion.div>
-    </motion.div>
+    </motion.div>,
+    document.body,
   );
 }
 
 function ProjectVisual({ project }: { project: Project }) {
   const ref = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
+  const reduce = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["-6%", "6%"]);
+  const rawY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reduce ? ["0%", "0%"] : ["-4%", "4%"],
+  );
+  const y = open || reduce ? "0%" : rawY;
 
   const images = getImages(project);
   const clickable = images.length > 0;
@@ -268,20 +290,22 @@ function ProjectVisual({ project }: { project: Project }) {
         tabIndex={clickable ? 0 : undefined}
         aria-label={clickable ? `View ${project.title} gallery` : undefined}
         className={cn(
-          "group relative aspect-4/3 overflow-hidden rounded-2xl border border-border bg-surface lg:aspect-auto lg:min-h-full",
+          "group relative aspect-4/3 overflow-hidden rounded-2xl border border-border bg-surface lg:aspect-3/4 lg:max-h-[78vh] lg:min-h-140",
           clickable &&
             "cursor-zoom-in transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
         )}
       >
         <motion.div
           style={{ y }}
-          className="absolute inset-[-8%] will-change-transform"
+          className="absolute inset-[-4%] will-change-transform"
         >
           {project.image ? (
-            <img
+            <Image
               src={project.image}
               alt={project.title}
-              className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
+              fill
+              sizes="(max-width: 1024px) 100vw, 55vw"
+              className="object-cover object-top transition-transform duration-500 group-hover:scale-[1.03]"
             />
           ) : (
             <>
@@ -296,7 +320,6 @@ function ProjectVisual({ project }: { project: Project }) {
           )}
         </motion.div>
 
-        {/* Hover indicator */}
         {clickable && (
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/30">
             <div className="flex translate-y-2 items-center gap-2 rounded-full border border-white/20 bg-black/60 px-4 py-2 opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
@@ -325,9 +348,8 @@ function ProjectVisual({ project }: { project: Project }) {
           </div>
         )}
 
-        {/* Multi-image badge, always visible */}
         {hasMultiple && (
-          <span className="absolute right-4 top-4 flex items-center gap-1.5 rounded-full border border-white/20 bg-black/60 px-2.5 py-1 font-mono text-xs text-white backdrop-blur-sm">
+          <span className="absolute right-4 top-4 z-10 flex items-center gap-1.5 rounded-full border border-white/20 bg-black/60 px-2.5 py-1 font-mono text-xs text-white backdrop-blur-sm">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -346,11 +368,11 @@ function ProjectVisual({ project }: { project: Project }) {
           </span>
         )}
 
-        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6">
-          <span className="font-mono text-xs text-muted-foreground">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-end justify-between bg-linear-to-t from-black/70 to-transparent p-6 pt-12">
+          <span className="font-mono text-xs text-white/80">
             {project.slug}
           </span>
-          <span className="font-mono text-xs text-muted-foreground">
+          <span className="font-mono text-xs text-white/80">
             {project.year}
           </span>
         </div>
@@ -367,8 +389,13 @@ function CaseStudy({ project, index }: { project: Project; index: number }) {
   const reversed = index % 2 === 1;
 
   return (
-    <article className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
-      <FadeIn className={cn(reversed && "lg:order-2")}>
+    <article className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
+      <FadeIn
+        className={cn(
+          "lg:sticky lg:top-24 lg:self-start",
+          reversed && "lg:order-2",
+        )}
+      >
         <ProjectVisual project={project} />
       </FadeIn>
 
@@ -376,7 +403,11 @@ function CaseStudy({ project, index }: { project: Project; index: number }) {
         delay={0.1}
         className={cn("flex flex-col", reversed && "lg:order-1")}
       >
-        <p className="text-kicker">{project.tagline}</p>
+        <span className="font-mono text-sm text-muted-foreground/50">
+          {String(index + 1).padStart(2, "0")} /{" "}
+          {String(projects.length).padStart(2, "0")}
+        </span>
+        <p className="mt-2 text-kicker">{project.tagline}</p>
         <h3 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
           {project.title}
         </h3>
@@ -393,7 +424,7 @@ function CaseStudy({ project, index }: { project: Project; index: number }) {
               <dt className="font-mono text-xs uppercase tracking-widest text-accent">
                 {label}
               </dt>
-              <dd className="mt-2 text-pretty leading-relaxed text-muted-foreground">
+              <dd className="mt-2 max-w-prose text-pretty leading-relaxed text-muted-foreground">
                 {text}
               </dd>
             </div>
@@ -411,7 +442,6 @@ function CaseStudy({ project, index }: { project: Project; index: number }) {
           ))}
         </ul>
 
-        {/* Project links */}
         {project.links && project.links.length > 0 && (
           <div className="mt-8 flex flex-wrap gap-3">
             {project.links.map((link) => {
@@ -439,9 +469,8 @@ function CaseStudy({ project, index }: { project: Project; index: number }) {
           </div>
         )}
 
-        {/* Restricted project notice */}
         {project.restrictedNote && (
-          <div className="mt-8 flex items-start gap-3 rounded-xl border border-border bg-surface p-4">
+          <div className="mt-8 flex items-start gap-3 rounded-xl border border-border border-l-2 border-l-accent bg-surface p-4">
             <Lock className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden />
             <p className="text-sm leading-relaxed text-muted-foreground">
               <span className="font-mono text-xs uppercase tracking-widest text-accent">

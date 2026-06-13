@@ -116,7 +116,7 @@ export function Particles() {
 
     resize();
     if (reduced) {
-      draw(); // static frame only
+      draw();
     } else {
       raf = requestAnimationFrame(loop);
     }

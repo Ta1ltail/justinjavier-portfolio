@@ -173,8 +173,9 @@ export const skillCategories: SkillCategory[] = [
 export const projects: Project[] = [
   {
     slug: "movieapp",
-    image: "/projects/movieapp.png",
+    image: "/projects/movieapp-thumb.png",
     images: [
+      "/projects/movieapp-thumb.png",
       "/projects/movieapp.png",
       "/projects/movieapp-2.png",
       "/projects/movieapp-3.png",
@@ -203,8 +204,9 @@ export const projects: Project[] = [
   },
   {
     slug: "tradihomes",
-    image: "/projects/tradihomes.png",
+    image: "/projects/tradihomes-thumb.png",
     images: [
+      "/projects/tradihomes-thumb.png",
       "/projects/tradihomes.png",
       "/projects/tradihomes-2.png",
       "/projects/tradihomes-3.png",
@@ -220,7 +222,7 @@ export const projects: Project[] = [
       "A full information system built in Laravel with role-based access for admins and residents covering profiling, billing, transactions, requests, forms, and a live dashboard.",
     challenge:
       "Designing a system flexible enough for a real organization's workflows while keeping the UI approachable for non-technical staff solved through iterative feedback sessions with actual users.",
-    tech: ["Laravel", "PHP", "MySQL", "Bootstrap", "Livewire", "JavaScript"],
+    tech: ["Laravel", "PHP", "MySQL", "Bootstrap", "Livewire", "AdminLTE","JavaScript"],
     metrics: [
       { value: "Multi", label: "Role-based access" },
       { value: "Full", label: "Billing & transactions" },
@@ -262,7 +264,7 @@ export const projects: Project[] = [
   },
   {
     slug: "fingerprint-auth",
-    image: "/projects/fingerprint-auth-system.png",
+    image: "/projects/fingerprint-auth-system-2.png",
     images: [
       "/projects/fingerprint-auth-system.png",
       "/projects/fingerprint-auth-system-2.png",
@@ -290,8 +292,9 @@ export const projects: Project[] = [
   },
   {
     slug: "syntaxmasters",
-    image: "/projects/syntaxmasters.png",
+    image: "/projects/syntaxmasters-2.png",
     images: [
+      "/projects/syntaxmasters.png",
       "/projects/syntaxmasters-2.png",
       "/projects/syntaxmasters-3.png",
       "/projects/syntaxmasters-4.png",
