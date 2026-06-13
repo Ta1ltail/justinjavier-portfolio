@@ -8,6 +8,7 @@ import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { site } from "@/config/site";
 import { Magnetic } from "@/components/ui/magnetic";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 export function Header() {
@@ -70,16 +71,24 @@ export function Header() {
         className="flex w-full max-w-5xl items-center justify-between rounded-2xl border border-border bg-background/75 px-4 py-2.5 shadow-[0_8px_30px_-12px_rgb(0_0_0/0.25)] backdrop-blur-xl"
         aria-label="Primary"
       >
-        <a
+        <motion.a
           href="#"
           onClick={(e) => scrollToSection(e, "#")}
-          className="font-mono text-sm font-semibold tracking-tight"
+          className="flex items-center gap-2 ml-4"
           aria-label="Back to top"
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          {site.initials}
-          <span className="text-accent">.</span>
-        </a>
-
+          <Image
+            src="/logo.png"
+            alt={`${site.name} logo`}
+            width={120}
+            height={28}
+            priority
+            className="h-7 w-auto"
+          />
+        </motion.a>
         <ul className="hidden items-center md:flex">
           {site.nav.map((item, i) => (
             <li key={item.href} className="flex items-center">
