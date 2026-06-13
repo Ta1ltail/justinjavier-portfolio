@@ -6,6 +6,8 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { GlobalBackground } from "@/components/backgrounds/global-background";
 import { BackToTop } from "@/components/ui/back-to-top";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { site } from "@/config/site";
 import "./globals.css";
 
@@ -74,6 +76,8 @@ export default function RootLayout({
             <Footer />
           </LenisProvider>
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
