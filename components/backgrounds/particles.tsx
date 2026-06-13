@@ -60,7 +60,6 @@ export function Particles() {
         p.x += p.vx;
         p.y += p.vy;
 
-        // gentle mouse repulsion
         const dx = p.x - mouse.x;
         const dy = p.y - mouse.y;
         const dist = Math.hypot(dx, dy);
@@ -81,7 +80,6 @@ export function Particles() {
         ctx.fill();
       }
 
-      // connecting lines
       for (let i = 0; i < particles.length; i++) {
         const a = particles[i];
         if (!a) continue;
