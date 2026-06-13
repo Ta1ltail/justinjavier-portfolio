@@ -29,6 +29,19 @@ export function Header() {
   };
   const [activeSection, setActiveSection] = useState<string>("");
 
+  // Smooth-scroll to a section without putting the hash in the URL
+  const scrollToSection = (e: React.MouseEvent, href: string) => {
+    e.preventDefault();
+    const id = href.replace("#", "");
+    if (!id) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
+    // Remove the "#about" etc. that the browser would otherwise add
+    history.replaceState(null, "", window.location.pathname);
+  };
+
   useEffect(() => {
     const ids = site.nav.map((n) => n.href.slice(1));
     const observer = new IntersectionObserver(
@@ -59,14 +72,15 @@ export function Header() {
         className="flex w-full max-w-5xl items-center justify-between rounded-2xl border border-border bg-background/75 px-4 py-2.5 shadow-[0_8px_30px_-12px_rgb(0_0_0/0.25)] backdrop-blur-xl"
         aria-label="Primary"
       >
-        <Link
+        <a
           href="#"
+          onClick={(e) => scrollToSection(e, "#")}
           className="font-mono text-sm font-semibold tracking-tight"
           aria-label="Back to top"
         >
           {site.initials}
           <span className="text-accent">.</span>
-        </Link>
+        </a>
 
         <ul className="hidden items-center md:flex">
           {site.nav.map((item, i) => (
@@ -75,8 +89,9 @@ export function Header() {
                 <span aria-hidden className="mx-1.5 h-3.5 w-px bg-border" />
               )}
               <div className="relative">
-                <Link
+                <a
                   href={item.href}
+                  onClick={(e) => scrollToSection(e, item.href)}
                   className={cn(
                     "group relative z-10 block rounded-lg px-3.5 py-1.5 text-sm transition-colors duration-200",
                     activeSection === item.href
@@ -97,7 +112,7 @@ export function Header() {
                         : "scale-x-0 group-hover:scale-x-100",
                     )}
                   />
-                </Link>
+                </a>
                 {activeSection === item.href && (
                   <motion.span
                     layoutId="nav-pill"
@@ -153,13 +168,16 @@ export function Header() {
             <ul className="flex flex-col">
               {site.nav.map((item) => (
                 <li key={item.href}>
-                  <Link
+                  <a
                     href={item.href}
-                    onClick={() => setOpen(false)}
+                    onClick={(e) => {
+                      scrollToSection(e, item.href);
+                      setOpen(false);
+                    }}
                     className="block rounded-xl px-4 py-3 text-sm transition-colors hover:bg-muted"
                   >
                     {item.label}
-                  </Link>
+                  </a>
                 </li>
               ))}
             </ul>

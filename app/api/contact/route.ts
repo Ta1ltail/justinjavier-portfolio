@@ -38,6 +38,8 @@ export async function POST(request: Request) {
     });
 
     if (!res.ok) {
+      const detail = await res.text();
+      console.error("[contact] Resend rejected:", res.status, detail);
       return NextResponse.json(
         { error: "Failed to send message. Please email me directly." },
         { status: 502 }
