@@ -415,7 +415,7 @@ export const timeline: TimelineEntry[] = [
   {
     year: "2023",
     type: "Education",
-    title: "Began BSIT at Cavite State University",
+    title: "BSIT Cavite State University",
     body: "Started my Bachelor of Science in Information Technology at Cavite State University while taking on freelance work as a 3D modeler, balancing formal study with applied creative practice.",
   },
   {
