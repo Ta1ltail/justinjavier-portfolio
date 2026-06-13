@@ -59,7 +59,7 @@ function Lightbox({
     setIndex((i) => (i - 1 + images.length) % images.length);
   };
 
-  // Keyboard: Escape closes, arrows navigate. Lock body scroll while open.
+  // Keyboard: Escape closes, arrows navigate. Lock body scroll while open...
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
