@@ -5,7 +5,7 @@ export const site = {
   headline: "Building Digital Experiences Beyond Code",
   description:
     "Full stack developer, 3D modeler, and game developer crafting fast, detailed, handcrafted digital products.",
-  url: "https://yourdomain.com",
+  url: "https://justinjavier-portfolio.vercel.app",
   email: "jjavier292002@gmail.com",
   links: {
     github: "https://github.com/Ta1ltail",
